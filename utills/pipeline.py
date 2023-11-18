@@ -8,6 +8,7 @@ from sklearn.impute import SimpleImputer
 from sklearn.metrics import mean_squared_error
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
+from skopt import BayesSearchCV
 
 
 def calculate_mse(model: Pipeline, X_test: pd.DataFrame, y_test: pd.Series):
@@ -87,3 +88,17 @@ def get_column_transformer() -> ColumnTransformer:
         n_jobs=-1,
     )
     return col_trans
+
+def get_bayes_model(
+    pipeline: Pipeline,
+    search_space: dict[str, any],
+    n_iter=50,
+)->BayesSearchCV:
+    return BayesSearchCV(
+        pipeline,
+        # [(space, # of evaluations)]
+        search_spaces=search_space,
+        n_iter=n_iter,
+        n_jobs=-1,
+        cv=5,
+    )
