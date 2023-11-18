@@ -12,5 +12,9 @@
         "source.organizeImports": true,
         "source.fixAll": true,
         "editor.formatOnSave": true,
+    },
+    "python.analysis.diagnosticSeverityOverrides": {
+        "reportUnknownParameterType": "none",
+        "reportMissingParameterType ": "none",
     }
 }

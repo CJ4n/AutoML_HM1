@@ -3,8 +3,11 @@ from typing import List, Tuple
 import numpy as np
 import pandas as pd
 from pandas import DataFrame, Series
+from sklearn.compose import ColumnTransformer, make_column_selector
+from sklearn.impute import SimpleImputer
 from sklearn.metrics import mean_squared_error
 from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 
 
 def calculate_mse(model: Pipeline, X_test: pd.DataFrame, y_test: pd.Series):
@@ -26,7 +29,7 @@ def evaluate_pipeline(
     y: pd.Series,
     X_val: pd.DataFrame,
     y_val: pd.Series,
-):
+) -> Tuple[float, float]:
     if not isinstance(X_val, (pd.DataFrame, np.ndarray)):
         raise ValueError("X_test must be a pandas DataFrame or numpy array")
     if not isinstance(y_val, (pd.Series, np.ndarray)):
@@ -40,20 +43,25 @@ def evaluate_pipeline(
     print("Test score R^2: " + str(test_score))
     print("Train score R^2: " + str(train_score))
     calculate_mse(pipeline, X_val, y_val)
+    return test_score, train_score
 
 
 def evaluate_pipeline_on_datasets(
     pipeline: Pipeline, optimal_config, datasets: List[Tuple[DataFrame, Series]]
 ):
+    pipeline.set_params(**optimal_config)
+    results: List[Tuple[float, float]] = []
     for X, y in datasets:
-        pipeline.set_params(**optimal_config)
-        evaluate_pipeline(
+        test_score, train_score = evaluate_pipeline(
             pipeline=pipeline,
             X=X,
             y=y,
             X_val=X,
             y_val=y,
         )
+        results.append((test_score, train_score))
+    return results
+
 
 def get_column_transformer() -> ColumnTransformer:
     num_pipeline = Pipeline(
