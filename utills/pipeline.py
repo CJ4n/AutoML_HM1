@@ -100,6 +100,7 @@ def get_bayes_model(
         # [(space, # of evaluations)]
         search_spaces=search_space,
         n_iter=n_iter,
+        scoring='r2', 
         n_jobs=-1,
         cv=5,
     )
