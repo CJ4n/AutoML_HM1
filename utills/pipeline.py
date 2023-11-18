@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import Any, Dict, List, Tuple
 
 import numpy as np
 import pandas as pd
@@ -89,11 +89,12 @@ def get_column_transformer() -> ColumnTransformer:
     )
     return col_trans
 
+
 def get_bayes_model(
     pipeline: Pipeline,
-    search_space: dict[str, any],
+    search_space: Dict[str, Any],
     n_iter=50,
-)->BayesSearchCV:
+) -> BayesSearchCV:
     return BayesSearchCV(
         pipeline,
         # [(space, # of evaluations)]
