@@ -11,57 +11,41 @@ from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 from skopt import BayesSearchCV
 
 
-def calculate_mse(model: Pipeline, X_test: pd.DataFrame, y_test: pd.Series):
-    # Ensure X_test and y_test are the correct types
-    if not isinstance(X_test, (pd.DataFrame, np.ndarray)):
-        raise ValueError("X_test must be a pandas DataFrame or numpy array")
-    if not isinstance(y_test, (pd.Series, np.ndarray)):
-        raise ValueError("y_test must be a pandas Series or numpy array")
+# def calculate_mse(model: Pipeline, X_test: pd.DataFrame, y_test: pd.Series):
+    # # Ensure X_test and y_test are the correct types
+    # if not isinstance(X_test, (pd.DataFrame, np.ndarray)):
+    #     raise ValueError("X_test must be a pandas DataFrame or numpy array")
+    # if not isinstance(y_test, (pd.Series, np.ndarray)):
+    #     raise ValueError("y_test must be a pandas Series or numpy array")
 
-    # Generating predictions and calculating MSE
-    predictions = model.predict(X_test)
-    mse = mean_squared_error(y_test, predictions)
-    print(f"Mean Squared Error: {mse}")
-
-
-def evaluate_pipeline(
-    pipeline: Pipeline,
-    X: pd.DataFrame,
-    y: pd.Series,
-    X_val: pd.DataFrame,
-    y_val: pd.Series,
-) -> Tuple[float, float]:
-    if not isinstance(X_val, (pd.DataFrame, np.ndarray)):
-        raise ValueError("X_test must be a pandas DataFrame or numpy array")
-    if not isinstance(y_val, (pd.Series, np.ndarray)):
-        raise ValueError("y_test must be a pandas Series or numpy array")
-
-    pipeline.fit(X, y)
-
-    test_score = pipeline.score(X_val, y_val)
-    train_score = pipeline.score(X, y)
-    print("Parameter set: " + str(pipeline.named_steps["model"]))
-    print("Test score R^2: " + str(test_score))
-    print("Train score R^2: " + str(train_score))
-    calculate_mse(pipeline, X_val, y_val)
-    return test_score, train_score
+    # # Generating predictions and calculating MSE
+    # predictions = model.predict(X_test)
+    # mse = mean_squared_error(y_test, predictions)
+    # print(f"Mean Squared Error: {mse}")
 
 
-def evaluate_pipeline_on_datasets(
-    pipeline: Pipeline, optimal_config, datasets: List[Tuple[DataFrame, Series]]
-):
-    pipeline.set_params(**optimal_config)
-    results: List[Tuple[float, float]] = []
-    for X, y in datasets:
-        test_score, train_score = evaluate_pipeline(
-            pipeline=pipeline,
-            X=X,
-            y=y,
-            X_val=X,
-            y_val=y,
-        )
-        results.append((test_score, train_score))
-    return results
+# def evaluate_pipeline(
+#     pipeline: Pipeline,
+#     X_train: pd.DataFrame,
+#     y_train: pd.Series,
+#     X_test: pd.DataFrame,
+#     y_test: pd.Series,
+# ) -> Tuple[float, float]:
+#     if not isinstance(X_test, (pd.DataFrame, np.ndarray)):
+#         raise ValueError("X_test must be a pandas DataFrame or numpy array")
+#     if not isinstance(y_test, (pd.Series, np.ndarray)):
+#         raise ValueError("y_test must be a pandas Series or numpy array")
+
+#     pipeline.fit(X_train, y_train)
+
+#     test_score = pipeline.score(X_test, y_test)
+#     train_score = pipeline.score(X_train, y_train)
+#     print("Parameter set: " + str(pipeline.named_steps["model"]))
+#     print("Test score R^2: " + str(test_score))
+#     print("Train score R^2: " + str(train_score))
+#     calculate_mse(pipeline, X_test, y_test)
+#     return test_score, train_score
+
 
 
 def get_column_transformer() -> ColumnTransformer:
