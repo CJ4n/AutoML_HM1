@@ -3,12 +3,12 @@
         "editor.defaultFormatter": "ms-python.black-formatter",
         "editor.formatOnSave": true,
         "editor.codeActionsOnSave": {
-            "source.organizeImports": true
+            "source.organizeImports": true,
         },
-      },
-      "isort.args":["--profile", "black"],
-      "notebook.formatOnSave.enabled": true,
-      "notebook.codeActionsOnSave": {
+    },
+    "isort.args":["--profile", "black"],
+    "notebook.formatOnSave.enabled": true,
+    "notebook.codeActionsOnSave": {
         "source.organizeImports": true,
         "source.fixAll": true,
         "editor.formatOnSave": true,
