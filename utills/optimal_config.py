@@ -32,7 +32,8 @@ def find_optimal_configuration_for_all_datasets(
     best_config = None
     best_summary_score = float("0")
     history_scores: List[float] = []
-    for config in config_space:
+    for i, config in enumerate(config_space):
+        print(i)
         scores: List[float] = evaluate_config_on_each_dataset(
             train_datasets=train_datasets,
             test_datasets=test_datasets,

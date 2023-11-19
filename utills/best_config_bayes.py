@@ -17,6 +17,7 @@ def get_bayes_model(
         n_iter=n_iter,
         n_jobs=-1,
         cv=5,  # Set cv=None to disable cross-validation
+        random_state=42,
     )
 
 
@@ -39,9 +40,6 @@ def find_best_config_using_bayes(
     return (dict(opt.best_params_), iteration_scores)
 
 
-
-
-
 def find_best_configs_in_search_space_with_bayes(
     search_space, pipeline: Pipeline, train_datasets
 ):
@@ -53,6 +51,5 @@ def find_best_configs_in_search_space_with_bayes(
         )
         configs.append(config)
         history.append(iteration_scores)
-
 
     return (configs, history)
