@@ -16,5 +16,8 @@
     "python.analysis.diagnosticSeverityOverrides": {
         "reportUnknownParameterType": "none",
         "reportMissingParameterType ": "none",
-    }
+    },
+    "cSpell.words": [
+        "elasticnet"
+    ]
 }
