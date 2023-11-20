@@ -29,11 +29,11 @@ def calculate_tunability_on_each_dataset(
 
         best_model_for_dataset.fit(train_dataset[0], train_dataset[1])
 
-        tunability_on_dataset = optimal_model.score(
-            test_dataset[0], test_dataset[1]
-        ) - best_model_for_dataset.score(test_dataset[0], test_dataset[1])
+        optimal_score = optimal_model.score(test_dataset[0], test_dataset[1])
+        best_score = best_model_for_dataset.score(test_dataset[0], test_dataset[1])
+        tunability_on_dataset = optimal_score - best_score
 
         tunability.append(tunability_on_dataset)
 
-        print("d^j: " + str(tunability_on_dataset))
+        print(f"d^j: {optimal_score} - {best_score} = {tunability_on_dataset}")
     return tunability

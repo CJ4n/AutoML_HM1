@@ -1,6 +1,7 @@
 from typing import Any, Dict, List
 
 from pandas import DataFrame
+import pip
 from sklearn.pipeline import Pipeline
 from skopt import BayesSearchCV
 
@@ -17,17 +18,18 @@ def get_bayes_model(
         n_iter=n_iter,
         n_jobs=-1,
         cv=5,  # Set cv=None to disable cross-validation
-        random_state=42,
+        random_state=321,
     )
 
 
 def find_best_config_using_bayes(
-    pipeline: Pipeline,
+    get_pipeline,
     search_space: Dict[str, Any],
     X: DataFrame,
     y: DataFrame,
     n_iter,
 ):
+    pipeline: Pipeline = get_pipeline()
     opt: BayesSearchCV = get_bayes_model(pipeline, search_space, n_iter)
     opt.fit(X, y)
     iteration_scores = opt.cv_results_["mean_test_score"]
@@ -41,13 +43,13 @@ def find_best_config_using_bayes(
 
 
 def find_best_configs_in_search_space_with_bayes(
-    search_space, pipeline: Pipeline, train_datasets
+    search_space, get_pipeline, train_datasets
 ):
     configs = []
     history: List[List[float]] = []
-    for i, train in enumerate(train_datasets):
+    for train in train_datasets:
         config, iteration_scores = find_best_config_using_bayes(
-            pipeline, search_space[0], train[0], train[1], search_space[1]
+            get_pipeline, search_space[0], train[0], train[1], search_space[1]
         )
         configs.append(config)
         history.append(iteration_scores)
