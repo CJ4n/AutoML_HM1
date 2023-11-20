@@ -1,7 +1,7 @@
 from typing import Any, Dict, List
 
-from pandas import DataFrame
 import pip
+from pandas import DataFrame
 from sklearn.pipeline import Pipeline
 from skopt import BayesSearchCV
 
@@ -18,7 +18,7 @@ def get_bayes_model(
         n_iter=n_iter,
         n_jobs=-1,
         cv=5,  # Set cv=None to disable cross-validation
-        random_state=321,
+        random_state=5678,
     )
 
 
